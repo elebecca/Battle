@@ -1,0 +1,14 @@
+Create a Gemfile
+
+1. Initialize your project with a Ruby Gemfile. Gemfiles act as a reference for describing all the Gem (libraries) 
+dependencies (ie the Gems to be used) in the project.
+$ bundle init
+
+2. Use Bundler (a dependency manager) to work with the Gems listed in the Gemfile.
+It provides a consistent environment for Ruby projects by tracking and installing the exact gems and versions that are needed.
+$ gem install bundler
+$ bundle install
+
+3. Use Ruby Version Manager (RVM) to install and manage different versions of Ruby. It allows you to work with multiple ruby environments.
+
+
