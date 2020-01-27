@@ -4,10 +4,8 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-group :test do
-    gem 'rspec'
-end
+ruby '2.7.0'
 
-group :development do
+group :test, :development do
     gem 'rspec'
 end
