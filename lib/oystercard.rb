@@ -15,9 +15,6 @@ class Oystercard
     @balance += amount
   end 
 
-  def deduct(amount)
-    @balance -= amount
-  end
 
   def touch_in
     raise "Insufficient balance to touch in" if @balance < MINIMUM_FARE
@@ -29,7 +26,13 @@ class Oystercard
   end
 
   def touch_out
-    @balance -= MINIMUM_FARE
+    deduct(MINIMUM_FARE)
     @in_journey = false
+  end
+
+  private
+
+  def deduct(amount)
+    @balance -= amount
   end
 end
