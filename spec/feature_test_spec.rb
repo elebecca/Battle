@@ -1,6 +1,8 @@
 require 'oystercard'
 
 oystercard = Oystercard.new
-# oystercard.balance
+oystercard.touch_in
+# oystercard.in_journey?
+# oystercard.touch_out
 
 
