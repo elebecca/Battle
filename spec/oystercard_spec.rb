@@ -29,16 +29,26 @@ describe Oystercard do
     end
   end
 
+  it 'has a minimum fare' do
+    expect(Oystercard::MINIMUM_FARE).to eq 1
+  end
+
   describe "#touch_in" do
     it { is_expected.to respond_to(:touch_in).with(0).argument }
 
     it 'changes in_journey to true' do
+      subject.top_up(2)
       expect(subject.touch_in).to be true
     end
 
     it "can touch in" do
+      subject.top_up(2)
       subject.touch_in
       expect(subject).to be_in_journey
+    end
+
+    it 'will not touch in if below minimum balance' do
+      expect{ subject.touch_in }.to raise_error "Insufficient balance to touch in"
     end
   end
 
@@ -50,6 +60,7 @@ describe Oystercard do
     end
 
     it 'returns true when the user has touched in' do
+      subject.top_up(20)
       subject.touch_in
       expect(subject.in_journey?).to be true
     end
@@ -64,6 +75,7 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_out).with(0).argument }
 
     it 'changes in_journey to false' do
+      subject.top_up(20)
       subject.touch_in
       expect(subject.touch_out).to be false
     end
