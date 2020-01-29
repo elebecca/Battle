@@ -2,8 +2,13 @@ describe Oystercard do
   let(:start) { "start_station" }
   let(:finish) { "finish_station" }
 
-  it 'initializes with a default balance of 0' do
-    expect(subject.balance).to eq 0
+  describe '#initialize' do
+    it 'defaults balance to 0' do
+      expect(subject.balance).to eq 0
+    end
+    it '#journeys to nil' do
+      expect(subject.journeys).to eq([])
+    end
   end
 
   describe '#top_up' do 
