@@ -11,7 +11,6 @@ describe Station do
     end
   end
 
-
   describe '#zone' do
     it 'returns the zone number' do
         expect(subject.zone).to eq zone_number
