@@ -91,13 +91,15 @@ describe Oystercard do
     end
   end
 
-  describe ".entry_station" do
+  describe "#entry_station" do
     it "returns entry station" do
       subject.top_up(described_class::MINIMUM_FARE)
       subject.touch_in(station)
       expect(subject.entry_station).to eq(station)
     end
   end
+
+  it { is_expected.to respond_to :journeys }
 
 end 
 

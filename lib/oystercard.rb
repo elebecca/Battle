@@ -29,6 +29,10 @@ class Oystercard
     @entry_station != nil
   end
 
+  def journeys
+    
+  end
+
   private
 
   def deduct(amount)
