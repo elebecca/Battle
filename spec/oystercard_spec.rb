@@ -1,5 +1,6 @@
 describe Oystercard do
-  let(:station) { "station" }
+  let(:start) { "start_station" }
+  let(:finish) { "finish_station" }
 
   it 'initializes with a default balance of 0' do
     expect(subject.balance).to eq 0
@@ -27,22 +28,22 @@ describe Oystercard do
     expect(Oystercard::MINIMUM_FARE).to eq 1
   end
 
-  describe "#touch_in(station)" do
+  describe "#touch_in(start)" do
     it { is_expected.to respond_to(:touch_in) }
 
     it 'changes in_journey to true' do
       subject.top_up(Oystercard::MINIMUM_FARE)
-      expect(subject.touch_in(station)).to be_truthy
+      expect(subject.touch_in(start)).to be_truthy
     end
 
     it "can touch in" do
       subject.top_up(2)
-      subject.touch_in(station)
+      subject.touch_in(start)
       expect(subject).to be_in_journey
     end
 
     it 'will not touch in if below minimum balance' do
-      expect{ subject.touch_in(station) }.to raise_error "Insufficient balance to touch in"
+      expect{ subject.touch_in(start) }.to raise_error "Insufficient balance to touch in"
     end
   end
 
@@ -55,7 +56,7 @@ describe Oystercard do
 
     it 'returns true when the user has touched in' do
       subject.top_up(Oystercard::MINIMUM_FARE)
-      subject.touch_in(station)
+      subject.touch_in(start)
       expect(subject.in_journey?).to be true
     end
 
@@ -68,7 +69,7 @@ describe Oystercard do
   describe "#touch_out" do
     before(:each) do
       subject.top_up(Oystercard::MINIMUM_FARE)
-      subject.touch_in(station)
+      subject.touch_in(finish)
     end
     it { is_expected.to respond_to(:touch_out) }
 
@@ -94,12 +95,17 @@ describe Oystercard do
   describe "#entry_station" do
     it "returns entry station" do
       subject.top_up(described_class::MINIMUM_FARE)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq(station)
+      subject.touch_in(start)
+      expect(subject.entry_station).to eq(start)
     end
   end
 
   it { is_expected.to respond_to :journeys }
 
+  describe "#finish_station" do
+    it "returns finish station" do
+      expect(subject.finish_station).to eq(finish)
+    end
+  end
 end 
 
