@@ -31,8 +31,8 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_in) }
 
     it 'changes in_journey to true' do
-      subject.top_up(2)
-      expect(subject.touch_in(station)).to be true
+      subject.top_up(Oystercard::MINIMUM_FARE)
+      expect(subject.touch_in(station)).to be_truthy
     end
 
     it "can touch in" do
@@ -47,14 +47,14 @@ describe Oystercard do
   end
 
   describe "#in_journey?" do
-    it { is_expected.to respond_to(:in_journey?).with(0).argument }
+    it { is_expected.to respond_to(:in_journey?) }
 
     it 'returns false at the start' do
-      expect(subject.in_journey?).to eq false
+      expect(subject.in_journey?).to be false
     end
 
     it 'returns true when the user has touched in' do
-      subject.top_up(20)
+      subject.top_up(Oystercard::MINIMUM_FARE)
       subject.touch_in(station)
       expect(subject.in_journey?).to be true
     end
@@ -73,7 +73,7 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_out) }
 
     it 'changes in_journey to false' do
-      expect(subject.touch_out).to be false
+      expect { subject.touch_out }.to change{ subject.in_journey?}.to false
     end
 
     it 'can touch out' do
