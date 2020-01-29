@@ -61,7 +61,7 @@ describe Oystercard do
     end
 
     it 'returns false when the user has touched out' do
-      subject.touch_out
+      subject.touch_out(finish)
       expect(subject.in_journey?).to be false
     end
   end
@@ -74,25 +74,27 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_out) }
 
     it 'changes in_journey to false' do
-      expect { subject.touch_out }.to change{ subject.in_journey?}.to false
+      expect { subject.touch_out(finish) }.to change{ subject.in_journey?}.to false
     end
 
     it 'can touch out' do
-      subject.touch_out
+      subject.touch_out(finish)
       expect(subject).to_not be_in_journey
     end
 
     it 'deducts the minimum fare from the balance at touch out' do
-      expect { subject.touch_out }.to change{ subject.balance }.by -Oystercard::MINIMUM_FARE
+      expect { subject.touch_out(finish) }.to change{ subject.balance }.by -Oystercard::MINIMUM_FARE
     end
 
     it 'removes the entry station' do
-      subject.touch_out
+      subject.touch_out(finish)
       expect(subject.entry_station).to be_nil
     end
 
     it 'adds a journey' do
+      subject.touch_in(start)
       expect { subject.touch_out(finish) }.to change { subject.journeys }
+        .by([{a: start, b: finish}])
     end
   end
 
@@ -106,7 +108,7 @@ describe Oystercard do
 
   describe '#journeys' do
     it 'returns journey list array' do
-      expect(subject.journeys).to be Array
+      expect(subject.journeys).to be_an(Array)
     end
   end
 
