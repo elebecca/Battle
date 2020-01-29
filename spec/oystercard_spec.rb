@@ -1,10 +1,11 @@
 describe Oystercard do
+  let(:station) { "station" }
+
   it 'initializes with a default balance of 0' do
     expect(subject.balance).to eq 0
   end
 
   describe '#top_up' do 
-
     it { is_expected.to respond_to(:top_up).with(1).argument }
 
     it 'adds money to the card' do
@@ -26,22 +27,22 @@ describe Oystercard do
     expect(Oystercard::MINIMUM_FARE).to eq 1
   end
 
-  describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in).with(0).argument }
+  describe "#touch_in(station)" do
+    it { is_expected.to respond_to(:touch_in) }
 
     it 'changes in_journey to true' do
       subject.top_up(2)
-      expect(subject.touch_in).to be true
+      expect(subject.touch_in(station)).to be true
     end
 
     it "can touch in" do
       subject.top_up(2)
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject).to be_in_journey
     end
 
     it 'will not touch in if below minimum balance' do
-      expect{ subject.touch_in }.to raise_error "Insufficient balance to touch in"
+      expect{ subject.touch_in(station) }.to raise_error "Insufficient balance to touch in"
     end
   end
 
@@ -54,7 +55,7 @@ describe Oystercard do
 
     it 'returns true when the user has touched in' do
       subject.top_up(20)
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject.in_journey?).to be true
     end
 
@@ -67,7 +68,7 @@ describe Oystercard do
   describe "#touch_out" do
     before(:each) do
       subject.top_up(20)
-      subject.touch_in
+      subject.touch_in(station)
     end
     it { is_expected.to respond_to(:touch_out).with(0).argument }
 
@@ -82,6 +83,14 @@ describe Oystercard do
 
     it 'deducts the minimum fare from the balance at touch out' do
       expect { subject.touch_out }.to change{ subject.balance }.by -Oystercard::MINIMUM_FARE
+    end
+  end
+
+  describe ".station" do
+    it "returns entry station" do
+      subject.top_up(described_class::MINIMUM_FARE)
+      subject.touch_in(station)
+      expect(subject.station).to eq(station)
     end
   end
 
