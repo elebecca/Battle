@@ -90,6 +90,10 @@ describe Oystercard do
       subject.touch_out
       expect(subject.entry_station).to be_nil
     end
+
+    it 'adds a journey' do
+      expect { subject.touch_out(finish) }.to change { subject.journeys }
+    end
   end
 
   describe "#entry_station" do
@@ -100,7 +104,11 @@ describe Oystercard do
     end
   end
 
-  it { is_expected.to respond_to :journeys }
+  describe '#journeys' do
+    it 'returns journey list array' do
+      expect(subject.journeys).to be Array
+    end
+  end
 
   describe "#finish_station" do
     it "returns finish station" do
