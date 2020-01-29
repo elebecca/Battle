@@ -6,8 +6,6 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @entry_station = nil
-    @finish_station = "finish_station"
     @journeys = []
   end
 
